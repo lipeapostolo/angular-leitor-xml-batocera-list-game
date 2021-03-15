@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
 
+import { classToPlain, plainToClass } from "class-transformer";
+
 @Injectable({
   providedIn: "root"
 })
@@ -8,7 +10,10 @@ export class GameService {
   constructor(private firestore: AngularFirestore) {}
 
   create(record) {
-    return this.firestore.collection("Game").add(record).catch(err => console.log(err));
+    return this.firestore
+      .collection("Game")
+      .add(classToPlain(record))
+      .catch(err => console.log(err));
   }
 
   read() {

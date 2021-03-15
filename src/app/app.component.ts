@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
       let listaGames = JSONData.gameList.game;
       this.plataformaImportada = new PlataForma("PlayStaion", listaGames);
       //this.outputXml = JSON.stringify(this.outputXml);
-      this.gameService.create(this.plataformaImportada.lista[0]);
+      this.gameService.create(this.plataformaImportada.lista[0]).then();
     };
     reader.readAsText(event.target.files[0]);
   }
@@ -38,6 +38,7 @@ export class AppComponent implements OnInit {
   }
 }
 export class PlataForma {
+  id: string;
   lista: Game[] = [];
   nome: string;
 
@@ -66,6 +67,7 @@ export class PlataForma {
 }
 
 export class Game {
+  id: string;
   nome: string;
   caminho: string; //path
   publicadoPor: string; //publisher
