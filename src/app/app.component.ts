@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
   constructor(private gameService: GameService) {}
 
   selectFile(event) {
-    console.log(event.target.files[0].name);
     const reader = new FileReader();
     reader.onload = (e: any) => {
       let xml = e.target.result;
@@ -24,9 +23,10 @@ export class AppComponent implements OnInit {
 
       const JSONData = JSON.parse(result1);
       let listaGames = JSONData.gameList.game;
-      this.plataformaImportada = new PlataForma("PlayStaion", listaGames);
+      this.plataformaImportada = new PlataForma("PlayStaion");
+      this.plataformaImportada.montalista(listaGames);
       //this.outputXml = JSON.stringify(this.outputXml);
-      this.gameService.create(this.plataformaImportada.lista[0]).then();
+      this.gameService.create(this.plataformaImportada).then();
     };
     reader.readAsText(event.target.files[0]);
   }
@@ -36,18 +36,36 @@ export class AppComponent implements OnInit {
     // const str = JSON.stringify(this.formGroup.value);
     // this.outputXml = converter.json2xml(str, {compact: true,spaces: 4});
   }
+
+  criaNovoObjeto() {
+    let teste;
+
+    this.gameService.listaTodos().subscribe(d =>
+      d.map(e => {
+        console.log(e.payload.doc.id);
+        console.log(e.payload.doc.data()["nome"]);
+        console.log(e.payload.doc.data());
+      })
+    );
+
+    console.log(teste);
+  }
+}
+
+export class Teste {
+  id: any;
+  nome: string;
 }
 export class PlataForma {
   id: string;
   lista: Game[] = [];
   nome: string;
 
-  constructor(nome: string, listaGame: any[]) {
+  constructor(nome: string) {
     this.nome = nome;
-    this.montalista(listaGame);
   }
 
-  private montalista(listaGame: any[]) {
+  public montalista(listaGame: any[]) {
     listaGame.forEach(g => {
       this.lista.push(
         new Game(

@@ -17,7 +17,7 @@ export class GameService {
   }
 
   read() {
-    return this.firestore.collection("Game").snapshotChanges();
+    return this.firestore.collection("Teste").snapshotChanges();
   }
 
   update(recordID, record) {
@@ -26,5 +26,16 @@ export class GameService {
 
   delete(record_id) {
     this.firestore.doc("Game/" + record_id).delete();
+  }
+
+  listaTodos() {
+    return this.firestore.collection("Teste").snapshotChanges();
+  }
+
+  testeCriaUmObjeto(objeto) {
+    return this.firestore
+      .collection("Teste")
+      .add(classToPlain(objeto))
+      .catch(err => console.log(err));
   }
 }
